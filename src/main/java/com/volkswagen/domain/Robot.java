@@ -29,7 +29,7 @@ public class Robot {
         if (workplace.isOutside(position)) {
             throw new IllegalArgumentException("Invalid coordinates");
         }
-
+        System.out.println("test test");
         this.id = nextId++;
     }
 
