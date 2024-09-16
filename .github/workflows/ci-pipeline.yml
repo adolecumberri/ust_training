@@ -29,6 +29,7 @@ jobs:
         run: mvn clean install
 
       - name: Test with Maven
+        id: test-output
         run: mvn test
 
       - name: Publish Check
@@ -39,4 +40,4 @@ jobs:
           name: Test Maven
           conclusion: ${{ job.status }}
           output: |
-            {"summary":"${{ steps.test.outputs.summary }}"}
+            {"summary":"${{ steps.test-output.outputs }}"}

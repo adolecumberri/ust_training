@@ -22,22 +22,22 @@ public class CleaningRobotServiceImpl implements CleaningRobotService {
     @Override
     public List<Robot> controlRobots(RobotsDataCommand robotsDataCommand) {
 
+        //Primero se procesa un robot.  Cuando este robot ha finalizado  porque ya se han procesado todas sus acciones,  entonces pasamos al siguiente robot.
+        //Y así sucesivamente hasta que ya hemos trabajado con todos los robots.
+
         Workplace workplace = robotsDataCommand.workplace();
-        List<Robot> listaRobots = new ArrayList<>();
+        List<Robot> listaRobotsFinal = new ArrayList<>();
 
-        /* TODO: The workplace data structure contains all the information necessary to process all robot movements.
+        for (var robotConfiguration : robotsDataCommand.configurations()){
+            Robot robot = Robot.from(workplace, robotConfiguration.robotPosition());
+            listaRobotsFinal.add(robot);
+            for (var robotCommand : robotConfiguration.commands()){
+                robot.executeCommand(robotCommand);
+            }
+            workplace.addFinishedRobot(robot);
+        }
 
-            For a successful implementation, processing the information stored in this data structure is imperative.
-
-            If you look at the workplace data structure, you can see the information to create the robot in an initial position.
-            There is also information on all the movements that the robot will perform.
-
-            Therefore, to achieve a successful implementation that passes the tests, it is essential to create each robot
-            and invoke each of the commands on the corresponding robot.  Finally, the list with the robots that have finished
-            all their movements is passed to the robotsResultPort component.
-        */
-
-        robotsResultPort.processRobotsResult(listaRobots);
-        return listaRobots;
+        robotsResultPort.processRobotsResult(listaRobotsFinal);
+        return listaRobotsFinal;
     }
 }

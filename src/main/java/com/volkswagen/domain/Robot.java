@@ -29,6 +29,9 @@ public class Robot {
         if (workplace.isOutside(position)) {
             throw new IllegalArgumentException("Invalid coordinates");
         }
+        System.out.println("test test");
+
+
 
         this.id = nextId++;
     }
@@ -59,28 +62,27 @@ public class Robot {
             case SOUTH -> this.position.orientation(WEST);
         }
 
-        return  this;
+        return this;
     }
 
     public Robot moveForward() {
+        int x = position.x();
+        int y = position.y();
 
-        /*
-            TODO This method has to move the robot to one position, depending on its current orientation.
-            Depending on whether the robot is facing north, south, east, or west, the robot will move forward in the appropriate direction in one position.
+        switch (position.orientation()) {
+            case EAST -> x++;
+            case WEST -> x--;
+            case NORTH -> y++;
+            case SOUTH -> y--;
+        }
+        if (workplace.isOutside(x, y)) throw new IllegalArgumentException("Robot is outside the workplace");
 
-            The code must handle two possible exceptions.
+        if (workplace.hasObstacleIn(x, y)) throw new IllegalArgumentException("Robot has found an obstacle");
 
-            The robot might go off the board when advancing one position.
-            In this case, the system has to throw the exception:
-            new IllegalArgumentException(“Robot is outside the workplace”).
+        position.x(x);
+        position.y(y);
 
-            It could also happen that the robot collides with another robot that has already finished all its movements and is parked.
-
-            In that case, the system has to throw the following exception:
-            throw new IllegalArgumentException(“Robot has found an obstacle”);
-
-            If it went well, the robot's position should be updated as described above.
-         */
+        // Just a comment to test :)
 
         return this;
     }
@@ -120,5 +122,21 @@ public class Robot {
         return Objects.hash(id);
     }
 
-}
+    public void complexMethod(int a) {
+        if (a > 0 && a % 2 == 0) {
 
+            for (int i = 0; i < 10; i++) {
+                if (i == 5) {
+                    a++;
+                } else if (i > 7) {
+                    a = a + 1;
+                } else {
+                    a = a + 2;
+                }
+            }
+        }
+
+    }
+
+
+}

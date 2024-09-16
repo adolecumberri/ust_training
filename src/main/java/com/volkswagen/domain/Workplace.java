@@ -53,22 +53,29 @@ public class Workplace {
 
     public boolean hasObstacleIn(int x, int y) {
 
-        /*
-        TODO: Correctly implements the logic to detect possible collisions
-        between the robot trying to perform a movement and the robots already finished and parked in a particular position.
+        // Si eso ocurre,   retorna true.  De otro modo,  devuelve falso.
 
-        The code returns false, pending a correct implementation.
-         */
+        // Implementación forEach
+        // return hasObstacleIn_prehistorico(x, y);
 
+        // Source [finishedRobots] -> Intermediate [] -> Terminal [anyMatch]
+
+        return finishedRobots.stream()
+                .anyMatch(robot -> robot.position().x() == x && robot.position().y() == y);
+    }
+
+    private boolean hasObstacleIn_prehistorico(int x, int y) {
+        for (var robot : finishedRobots) {
+            if (robot.position().x() == x && robot.position().y() == y) {
+                return true;
+            }
+        }
         return false;
     }
 
-
     public void addFinishedRobot(Robot robot) {
 
-       /*
-       TODO: Updates an auxiliary data structure to record the robots that have already finished their movements.
-        */
+        finishedRobots.add(robot);
 
     }
 
